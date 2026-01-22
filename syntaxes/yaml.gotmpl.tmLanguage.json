@@ -1,0 +1,872 @@
+{
+	"information_for_contributors": [
+		"This file is based on https://github.com/textmate/yaml.tmbundle",
+		"Modified to support Go template (.gotmpl) syntax injection"
+	],
+	"version": "1.0.2-gotmpl",
+	"name": "YAML with Go Template",
+	"scopeName": "source.yaml.gotmpl",
+	"patterns": [
+		{
+			"include": "#template-comment"
+		},
+		{
+			"include": "#comment"
+		},
+		{
+			"include": "#directive"
+		},
+		{
+			"include": "#template-tags"
+		},
+		{
+			"include": "#yaml-content"
+		}
+	],
+	"repository": {
+		"template-comment": {
+			"name": "comment.block.gotmpl",
+			"begin": "\\{\\{-?\\s*/\\*",
+			"end": "\\*/\\s*-?\\}\\}",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.comment.begin.gotmpl"
+				}
+			},
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.comment.end.gotmpl"
+				}
+			}
+		},
+		"template-tags": {
+			"patterns": [
+				{
+					"name": "meta.template.block.if.gotmpl",
+					"begin": "(\\{\\{-?)\\s*(if)\\b",
+					"end": "(\\{\\{-?)\\s*(end)\\s*(-?\\}\\})",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						},
+						"2": {
+							"name": "keyword.control.gotmpl"
+						}
+					},
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						},
+						"2": {
+							"name": "keyword.control.gotmpl"
+						},
+						"3": {
+							"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#template-comment"
+						},
+						{
+							"name": "meta.template.if.condition.gotmpl",
+							"begin": "(?<=if)\\s*",
+							"end": "(-?\\}\\})",
+							"endCaptures": {
+								"1": {
+									"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#template-content"
+								}
+							]
+						},
+						{
+							"name": "meta.template.else-if.gotmpl",
+							"begin": "(\\{\\{-?)\\s*(else\\s+if)\\b",
+							"end": "(-?\\}\\})",
+							"beginCaptures": {
+								"1": {
+									"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+								},
+								"2": {
+									"name": "keyword.control.gotmpl"
+								}
+							},
+							"endCaptures": {
+								"1": {
+									"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#template-content"
+								}
+							]
+						},
+						{
+							"name": "meta.template.else.gotmpl",
+							"begin": "(\\{\\{-?)\\s*(else)\\s*",
+							"end": "(-?\\}\\})",
+							"beginCaptures": {
+								"1": {
+									"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+								},
+								"2": {
+									"name": "keyword.control.gotmpl"
+								}
+							},
+							"endCaptures": {
+								"1": {
+									"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+								}
+							}
+						},
+						{
+							"include": "#template-tags"
+						},
+						{
+							"include": "#comment"
+						},
+						{
+							"include": "#yaml-content"
+						}
+					]
+				},
+				{
+					"name": "meta.template.block.range.gotmpl",
+					"begin": "(\\{\\{-?)\\s*(range)\\b",
+					"end": "(\\{\\{-?)\\s*(end)\\s*(-?\\}\\})",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						},
+						"2": {
+							"name": "keyword.control.gotmpl"
+						}
+					},
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						},
+						"2": {
+							"name": "keyword.control.gotmpl"
+						},
+						"3": {
+							"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#template-comment"
+						},
+						{
+							"name": "meta.template.range.condition.gotmpl",
+							"begin": "(?<=range)\\s*",
+							"end": "(-?\\}\\})",
+							"endCaptures": {
+								"1": {
+									"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#template-content"
+								}
+							]
+						},
+						{
+							"include": "#template-tags"
+						},
+						{
+							"include": "#comment"
+						},
+						{
+							"include": "#yaml-content"
+						}
+					]
+				},
+				{
+					"name": "meta.template.block.with.gotmpl",
+					"begin": "(\\{\\{-?)\\s*(with)\\b",
+					"end": "(\\{\\{-?)\\s*(end)\\s*(-?\\}\\})",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						},
+						"2": {
+							"name": "keyword.control.gotmpl"
+						}
+					},
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						},
+						"2": {
+							"name": "keyword.control.gotmpl"
+						},
+						"3": {
+							"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#template-comment"
+						},
+						{
+							"name": "meta.template.with.condition.gotmpl",
+							"begin": "(?<=with)\\s*",
+							"end": "(-?\\}\\})",
+							"endCaptures": {
+								"1": {
+									"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#template-content"
+								}
+							]
+						},
+						{
+							"include": "#template-tags"
+						},
+						{
+							"include": "#comment"
+						},
+						{
+							"include": "#yaml-content"
+						}
+					]
+				},
+				{
+					"name": "meta.template.block.define.gotmpl",
+					"begin": "(\\{\\{-?)\\s*(define)\\b",
+					"end": "(\\{\\{-?)\\s*(end)\\s*(-?\\}\\})",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						},
+						"2": {
+							"name": "keyword.control.gotmpl"
+						}
+					},
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						},
+						"2": {
+							"name": "keyword.control.gotmpl"
+						},
+						"3": {
+							"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#template-comment"
+						},
+						{
+							"name": "meta.template.define.name.gotmpl",
+							"begin": "(?<=define)\\s*",
+							"end": "(-?\\}\\})",
+							"endCaptures": {
+								"1": {
+									"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#template-content"
+								}
+							]
+						},
+						{
+							"include": "#template-tags"
+						},
+						{
+							"include": "#comment"
+						},
+						{
+							"include": "#yaml-content"
+						}
+					]
+				},
+				{
+					"name": "meta.template.block.block.gotmpl",
+					"begin": "(\\{\\{-?)\\s*(block)\\b",
+					"end": "(\\{\\{-?)\\s*(end)\\s*(-?\\}\\})",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						},
+						"2": {
+							"name": "keyword.control.gotmpl"
+						}
+					},
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						},
+						"2": {
+							"name": "keyword.control.gotmpl"
+						},
+						"3": {
+							"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#template-comment"
+						},
+						{
+							"name": "meta.template.block.name.gotmpl",
+							"begin": "(?<=block)\\s*",
+							"end": "(-?\\}\\})",
+							"endCaptures": {
+								"1": {
+									"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#template-content"
+								}
+							]
+						},
+						{
+							"include": "#template-tags"
+						},
+						{
+							"include": "#comment"
+						},
+						{
+							"include": "#yaml-content"
+						}
+					]
+				},
+				{
+					"name": "meta.template.expression.gotmpl",
+					"begin": "(\\{\\{-?)",
+					"end": "(-?\\}\\})",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.begin.gotmpl meta.brace.gotmpl"
+						}
+					},
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.template.end.gotmpl meta.brace.gotmpl"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#template-content"
+						}
+					]
+				}
+			]
+		},
+		"template-content": {
+			"patterns": [
+				{
+					"name": "keyword.control.gotmpl",
+					"match": "\\b(if|else|range|with|end|define|template|block|and|or|not|eq|ne|lt|le|gt|ge)\\b"
+				},
+				{
+					"name": "support.function.gotmpl",
+					"match": "\\b(print|printf|println|html|js|urlquery|quot|quote|squote|css|base64|base64decode|default|len|index|required|upper|lower|title|trim|nospace|cat|list|now|date|toJson|fromJson|include|tpl|toYaml|fromYaml|toToml|fromToml)\\b"
+				},
+				{
+					"name": "variable.other.gotmpl",
+					"match": "\\.\\w+"
+				},
+				{
+					"name": "variable.language.gotmpl",
+					"match": "\\$(\\w+)?"
+				},
+				{
+					"name": "string.quoted.double.gotmpl",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+						{
+							"name": "constant.character.escape.gotmpl",
+							"match": "\\\\."
+						}
+					]
+				},
+				{
+					"name": "string.quoted.single.gotmpl",
+					"begin": "'",
+					"end": "'",
+					"patterns": [
+						{
+							"name": "constant.character.escape.gotmpl",
+							"match": "\\\\."
+						}
+					]
+				},
+				{
+					"name": "string.quoted.backtick.gotmpl",
+					"begin": "`",
+					"end": "`"
+				},
+				{
+					"name": "constant.numeric.gotmpl",
+					"match": "\\b\\d+(\\.\\d+)?\\b"
+				},
+				{
+					"name": "constant.language.gotmpl",
+					"match": "\\b(true|false|nil)\\b"
+				},
+				{
+					"name": "keyword.operator.gotmpl",
+					"match": "(\\||:=)"
+				},
+				{
+					"name": "punctuation.definition.group.begin.gotmpl",
+					"match": "\\("
+				},
+				{
+					"name": "punctuation.definition.group.end.gotmpl",
+					"match": "\\)"
+				}
+			]
+		},
+		"yaml-content": {
+			"patterns": [
+				{
+					"include": "#property"
+				},
+				{
+					"match": "^---",
+					"name": "entity.other.document.begin.yaml"
+				},
+				{
+					"match": "^\\.{3}",
+					"name": "entity.other.document.end.yaml"
+				},
+				{
+					"include": "#node"
+				}
+			]
+		},
+		"comment": {
+			"begin": "(?:(^[ \\t]*)|[ \\t]+)(?=#\\p{Print}*$)",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.whitespace.comment.leading.yaml"
+				}
+			},
+			"end": "(?!\\G)",
+			"patterns": [
+				{
+					"begin": "#",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.yaml"
+						}
+					},
+					"end": "\\n",
+					"name": "comment.line.number-sign.yaml"
+				}
+			]
+		},
+		"directive": {
+			"begin": "^%",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.directive.begin.yaml"
+				}
+			},
+			"end": "(?=$|[ \\t]+($|#))",
+			"name": "meta.directive.yaml",
+			"patterns": [
+				{
+					"captures": {
+						"1": {
+							"name": "keyword.other.directive.yaml.yaml"
+						},
+						"2": {
+							"name": "constant.numeric.yaml-version.yaml"
+						}
+					},
+					"match": "\\G(YAML)[\\t]+(\\d+\\.\\d+)"
+				},
+				{
+					"match": "\\S+",
+					"name": "invalid.illegal.unrecognized.yaml"
+				}
+			]
+		},
+		"property": {
+			"begin": "(?=!|&)",
+			"end": "(?!\\G)",
+			"name": "meta.property.yaml",
+			"patterns": [
+				{
+					"captures": {
+						"1": {
+							"name": "keyword.control.property.anchor.yaml"
+						},
+						"2": {
+							"name": "punctuation.definition.anchor.yaml"
+						},
+						"3": {
+							"name": "entity.name.type.anchor.yaml"
+						},
+						"4": {
+							"name": "invalid.illegal.character.anchor.yaml"
+						}
+					},
+					"match": "\\G((\\&))([^\\s\\[\\]/{/},]+)(\\S+)?"
+				},
+				{
+					"match": "\\S+",
+					"name": "invalid.illegal.tag-handle.yaml"
+				}
+			]
+		},
+		"block-mapping": {
+			"patterns": [
+				{
+					"include": "#block-pair"
+				}
+			]
+		},
+		"block-pair": {
+			"patterns": [
+				{
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.key-value.begin.yaml"
+						}
+					},
+					"match": "\\?",
+					"name": "meta.block-mapping.yaml"
+				},
+				{
+					"begin": "(?x)\n                        (?=\n                            (?:\n                                [^\\s[-?:,\\[\\]{}#&*!|>'\"%@`]]\n                                | [?:-] \\S\n                            )\n                            (\n                                [^\\s:]\n                                | : \\S\n                                | \\s+\n                                (?![#\\s])\n                            )*\n                            \\s*\n                            :\n\t\t\t\t\t\t\t(\\s|$)\n                        )\n                        ",
+					"end": "(?=:)",
+					"name": "meta.block-mapping.key.yaml",
+					"patterns": [
+						{
+							"captures": {
+								"1": {
+									"name": "entity.name.tag.yaml"
+								}
+							},
+							"match": "(?x)\n                                [^\\s[-?:,\\[\\]{}#&*!|>'\"%@`]]\n                                | [?:-] \\S\n                                ",
+							"name": "string.unquoted.plain.out.yaml"
+						}
+					]
+				},
+				{
+					"begin": ":",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.separator.key-value.mapping.yaml"
+						}
+					},
+					"end": "(?x)\n                        (?=\n                            \\s* $\n                            | \\s+ \\#\n                            | \\s* : (\\s|$)\n                        )\n                        ",
+					"name": "meta.block-mapping.value.yaml",
+					"patterns": [
+						{
+							"include": "#template-comment"
+						},
+						{
+							"include": "#template-tags"
+						},
+						{
+							"include": "#block-node"
+						}
+					]
+				}
+			]
+		},
+		"block-node": {
+			"patterns": [
+				{
+					"include": "#template-comment"
+				},
+				{
+					"include": "#comment"
+				},
+				{
+					"include": "#directive"
+				},
+				{
+					"include": "#template-tags"
+				},
+				{
+					"include": "#block-scalar"
+				},
+				{
+					"include": "#block-collection"
+				},
+				{
+					"include": "#flow-scalar-plain-out"
+				},
+				{
+					"include": "#flow-node"
+				}
+			]
+		},
+		"block-scalar": {
+			"begin": "(?:(\\|)|(>))([1-9])?([-+])?(.*\\n?)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.flow.block-scalar.literal.yaml"
+				},
+				"2": {
+					"name": "keyword.control.flow.block-scalar.folded.yaml"
+				},
+				"3": {
+					"name": "constant.numeric.indentation-indicator.yaml"
+				},
+				"4": {
+					"name": "storage.modifier.chomping-indicator.yaml"
+				},
+				"5": {
+					"patterns": [
+						{
+							"include": "#comment"
+						},
+						{
+							"match": ".+",
+							"name": "invalid.illegal.expected-comment-or-newline.yaml"
+						}
+					]
+				}
+			},
+			"end": "^(?=\\S)|(?!\\G)",
+			"patterns": [
+				{
+					"begin": "^([ ]+)(?! )",
+					"end": "^(?!\\1|\\s*$)",
+					"name": "string.unquoted.block.yaml"
+				}
+			]
+		},
+		"block-collection": {
+			"patterns": [
+				{
+					"include": "#block-sequence"
+				},
+				{
+					"include": "#block-mapping"
+				}
+			]
+		},
+		"block-sequence": {
+			"match": "(-)(?!\\S)",
+			"name": "punctuation.definition.block.sequence.item.yaml"
+		},
+		"flow-collection": {
+			"patterns": [
+				{
+					"include": "#flow-sequence"
+				},
+				{
+					"include": "#flow-mapping"
+				}
+			]
+		},
+		"flow-mapping": {
+			"begin": "\\{",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.mapping.begin.yaml"
+				}
+			},
+			"end": "\\}",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.mapping.end.yaml"
+				}
+			},
+			"name": "meta.flow-mapping.yaml",
+			"patterns": [
+				{
+					"include": "#flow-pair"
+				},
+				{
+					"match": ",",
+					"name": "punctuation.separator.mapping.yaml"
+				}
+			]
+		},
+		"flow-pair": {
+			"patterns": [
+				{
+					"begin": ":",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.separator.key-value.mapping.yaml"
+						}
+					},
+					"end": "(?=[},\\]])",
+					"name": "meta.flow-pair.yaml",
+					"patterns": [
+						{
+							"include": "#flow-value"
+						}
+					]
+				}
+			]
+		},
+		"flow-value": {
+			"patterns": [
+				{
+					"begin": "\\G(?![},\\]])",
+					"end": "(?=[},\\]])",
+					"name": "meta.flow-pair.value.yaml",
+					"patterns": [
+						{
+							"include": "#flow-node"
+						}
+					]
+				}
+			]
+		},
+		"flow-sequence": {
+			"begin": "\\[",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.sequence.begin.yaml"
+				}
+			},
+			"end": "\\]",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.sequence.end.yaml"
+				}
+			},
+			"name": "meta.flow-sequence.yaml",
+			"patterns": [
+				{
+					"match": ",",
+					"name": "punctuation.separator.sequence.yaml"
+				},
+				{
+					"include": "#flow-pair"
+				},
+				{
+					"include": "#flow-node"
+				}
+			]
+		},
+		"flow-node": {
+			"patterns": [
+				{
+					"include": "#template-comment"
+				},
+				{
+					"include": "#template-tags"
+				},
+				{
+					"include": "#flow-scalar-double-quoted"
+				},
+				{
+					"include": "#flow-scalar-single-quoted"
+				},
+				{
+					"include": "#flow-scalar-plain-in"
+				},
+				{
+					"include": "#flow-collection"
+				}
+			]
+		},
+		"flow-scalar-double-quoted": {
+			"begin": "\"",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.yaml"
+				}
+			},
+			"end": "\"",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.end.yaml"
+				}
+			},
+			"name": "string.quoted.double.yaml",
+			"patterns": [
+				{
+					"match": "\\\\([0abtnvfre \"/\\\\N_Lp]|x\\d\\d|u\\d{4}|U\\d{8})",
+					"name": "constant.character.escape.yaml"
+				},
+				{
+					"match": "\\\\\\n",
+					"name": "constant.character.escape.double-quoted.newline.yaml"
+				},
+				{
+					"include": "#template-comment"
+				},
+				{
+					"include": "#template-tags"
+				}
+			]
+		},
+		"flow-scalar-single-quoted": {
+			"begin": "'",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.yaml"
+				}
+			},
+			"end": "'",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.end.yaml"
+				}
+			},
+			"name": "string.quoted.single.yaml",
+			"patterns": [
+				{
+					"match": "''",
+					"name": "constant.character.escape.single-quoted.yaml"
+				}
+			]
+		},
+		"flow-scalar-plain-in": {
+			"patterns": [
+				{
+					"include": "#template-comment"
+				},
+				{
+					"include": "#template-tags"
+				},
+				{
+					"match": "[^\\{\\s,\\[\\]{}]+",
+					"name": "string.unquoted.plain.in.yaml"
+				}
+			]
+		},
+		"flow-scalar-plain-out": {
+			"patterns": [
+				{
+					"include": "#template-comment"
+				},
+				{
+					"include": "#template-tags"
+				},
+				{
+					"match": "[^\\{\\s]+",
+					"name": "string.unquoted.plain.out.yaml"
+				}
+			]
+		},
+		"node": {
+			"patterns": [
+				{
+					"include": "#block-node"
+				}
+			]
+		}
+	}
+}
